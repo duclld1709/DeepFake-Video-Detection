@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deepfake-detector"
+version = "2.0.0"
+description = "Deepfake video detection (ResNeXt-50 + LSTM) with a REST API, Gradio UI and Grad-CAM explanations."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [{ name = "Lai Le Dinh Duc" }, { name = "Le Minh Khoi" }]
+dependencies = [
+    "torch>=2.1",
+    "torchvision>=0.16",
+    "opencv-python-headless>=4.8,<5",  # 5.x dropped CascadeClassifier
+    "numpy>=1.24",
+    "pydantic>=2.5",
+    "scikit-learn>=1.3",
+]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn[standard]>=0.27", "python-multipart>=0.0.9"]
+ui = ["gradio>=4.0", "matplotlib>=3.7"]
+dlib = ["face_recognition>=1.3"]
+train = ["pandas>=2.0"]
+dev = [
+    "deepfake-detector[api,ui,train]",
+    "pytest>=8.0",
+    "httpx>=0.27",
+    "ruff>=0.5",
+]
+
+[project.scripts]
+deepfake-detect = "deepfake_detector.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["deepfake_detector*", "training*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["B008"]  # FastAPI's File()/Query() defaults

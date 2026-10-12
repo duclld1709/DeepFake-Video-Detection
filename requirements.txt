@@ -1,10 +1,11 @@
-torch
-torchvision
-numpy
-opencv-python
-matplotlib
-pandas
-scikit-learn
-face_recognition
-gradio
-seaborn
+# Runtime dependencies for `python app.py` / Hugging Face Spaces.
+# For development use `pip install -e ".[dev]"` instead.
+torch>=2.1
+torchvision>=0.16
+opencv-python-headless>=4.8,<5
+numpy>=1.24
+pydantic>=2.5
+scikit-learn>=1.3
+gradio>=4.0
+matplotlib>=3.7
+face_recognition>=1.3
